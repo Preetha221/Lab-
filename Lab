@@ -1,0 +1,449 @@
+import java.io.BufferedReader;
+
+import java.io.FileReader;
+
+import java.io.IOException;
+
+public class TextStatistics {
+
+ public static void main(String[] args) {
+
+ String filePath = "path/to/your/textfile.txt"; // Change to your file path
+
+try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+
+ String line;
+
+ int characterCount = 0;
+
+ int lineCount = 0;
+
+ int wordCount = 0;
+
+ while ((line = reader.readLine()) != null) {
+
+ lineCount++;
+
+ characterCount += line.length();
+
+ wordCount += line.split("\\s+").length; // Split by whitespace
+
+ }
+
+ System.out.println("Characters: " + characterCount);
+
+ System.out.println("Lines: " + lineCount);
+
+ System.out.println("Words: " + wordCount);
+
+ } catch (IOException e) {
+
+ e.printStackTrace();
+
+ }
+
+ }
+
+}
+=================================================
+import java.util.Random;
+
+import java.util.Scanner;
+
+public class RandomNumberGenerator {
+
+ public static void main(String[] args) {
+
+ Scanner scanner = new Scanner(System.in);
+
+ Random random = new Random();
+
+ // Input for range limits
+
+ System.out.print("Enter the lower limit: ");
+int lowerLimit = scanner.nextInt();
+
+ System.out.print("Enter the upper limit: ");
+
+ int upperLimit = scanner.nextInt();
+
+ // Generate a random number within the given limits
+
+ int randomNumber = random.nextInt(upperLimit - lowerLimit + 1) + lowerLimit;
+
+ // Print messages based on the random number generated
+
+ System.out.println("Generated Random Number: " + randomNumber);
+
+ if (randomNumber < 0) {
+
+ System.out.println("The number is negative.");
+
+ } else if (randomNumber >= 0 && randomNumber <= 10) {
+
+ System.out.println("The number is between 0 and 10.");
+
+ } else if (randomNumber > 10 && randomNumber <= 50) {
+
+ System.out.println("The number is between 11 and 50.");
+
+ } else {
+
+ System.out.println("The number is greater than 50.");
+
+ }
+
+ }
+
+}
+===============================================
+import java.util.Scanner;
+
+public class StringManipulation {
+
+ public static void main(String[] args) {
+
+ Scanner scanner = new Scanner(System.in);
+
+ // Input for the first string
+
+ System.out.print("Enter the first string: ");
+
+ String firstString = scanner.nextLine();
+
+ char[] firstCharArray = firstString.toCharArray(); // Convert to character array
+
+ // a) Get the length of the string
+
+ int length = firstCharArray.length;
+
+ System.out.println("Length of the first string: " + length);
+
+ // b) Finding a character at a particular position
+
+ System.out.print("Enter a position to find the character (0 to " + (length - 1) + "): ");
+
+ int position = scanner.nextInt();
+
+ if (position >= 0 && position < length) {
+
+ char characterAtPosition = firstCharArray[position];
+
+ System.out.println("Character at position " + position + ": " + characterAtPosition);
+
+ } else {
+
+ System.out.println("Invalid position!");
+
+ }
+
+ // Input for the second string
+
+ scanner.nextLine(); // Clear the buffer
+
+ System.out.print("Enter the second string: ");
+
+ String secondString = scanner.nextLine();
+
+ // c) Concatenating two strings
+
+ String concatenatedString = firstString + secondString;
+
+ System.out.println("Concatenated string: " + concatenatedString);
+
+ }
+
+}
+=================================
+import java.util.Scanner;
+
+public class SimpleStringOperations {
+
+ public static void main(String[] args) {
+
+ Scanner scanner = new Scanner(System.in);
+
+ // Concatenation
+
+ System.out.print("Enter the first string: ");
+
+ String str1 = scanner.nextLine();
+
+ System.out.print("Enter the second string: ");
+
+ String str2 = scanner.nextLine();
+
+ String concatenated = str1 + str2;
+
+ System.out.println("Concatenated String: " + concatenated);
+
+ // Search for a substring
+
+ System.out.print("Enter a substring to search: ");
+
+ String substring = scanner.nextLine();
+
+ if (concatenated.contains(substring)) {
+
+ System.out.println("Substring found!");
+
+ } else {
+
+ System.out.println("Substring not found.");
+
+ }
+
+// Extract a substring
+
+ System.out.print("Enter start index: ");
+
+ int start = scanner.nextInt();
+
+ System.out.print("Enter end index: ");
+
+ int end = scanner.nextInt();
+
+ if (start >= 0 && end <= concatenated.length()) {
+
+ String extracted = concatenated.substring(start, end);
+
+ System.out.println("Extracted Substring: " + extracted);
+
+ } else {
+
+ System.out.println("Invalid indices.");
+
+ }
+}
+}
+============================================
+import java.util.Scanner;
+
+public class SimpleStringBuffer {
+
+ public static void main(String[] args) {
+
+ Scanner scanner = new Scanner(System.in);
+
+ // Input string
+
+ System.out.print("Enter a string: ");
+
+ StringBuffer sb = new StringBuffer(scanner.nextLine());
+
+ // Length of the string
+
+ System.out.println("Length: " + sb.length());
+
+ // Reverse the string
+
+ System.out.println("Reversed: " + sb.reverse());
+
+ // Delete a substring
+
+ System.out.print("Start index to delete: ");
+
+ int start = scanner.nextInt();
+
+ System.out.print("End index to delete: ");
+
+ int end = scanner.nextInt();
+
+ if (start >= 0 && end <= sb.length() && start < end) {
+
+ sb.delete(start, end);
+
+ System.out.println("After deletion: " + sb);
+
+ } else {
+
+ System.out.println("Invalid indices.");
+
+ }
+
+ }
+
+}
+============================
+import java.util.Random;
+
+class RandomNumberGeneratorEx extends Thread {
+
+ private final NumberProcessor processor;
+
+ public RandomNumberGeneratorEx(NumberProcessor processor) {
+
+ this.processor = processor;
+
+ }
+@Override
+
+ public void run() {
+
+ Random random = new Random();
+
+ while (true) {
+
+ int number = random.nextInt(100);
+
+ System.out.println("Generated: " + number);
+
+ processor.processNumber(number);
+
+ try {
+
+ Thread.sleep(1000);
+
+ } catch (InterruptedException e) {
+
+ break;
+
+ }
+
+ }
+
+ }
+
+}
+
+class NumberProcessor {
+
+ private int number;
+
+ public synchronized void processNumber(int number) {
+
+ this.number = number;
+
+ notifyAll();
+
+ }
+
+ public void square() {
+
+ while (true) {
+
+ synchronized (this) {
+
+ try {
+
+ wait();
+
+ if (number % 2 == 0) {
+
+ System.out.println("Square: " + (number * number));
+
+ }
+
+ } catch (InterruptedException e) {
+
+ break;}
+
+ }
+
+ }
+
+ }
+
+ public void cube() {
+
+ while (true) {
+
+ synchronized (this) {
+
+ try {
+
+ wait();
+
+ if (number % 2 != 0) {
+
+ System.out.println("Cube: " + (number * number * number));
+
+ }
+
+ } catch (InterruptedException e) {
+
+ break;
+
+ }
+
+ }
+
+ }
+
+ }
+
+}
+
+public class MultiThreadedRandomNumber {
+
+ public static void main(String[] args) {
+
+ NumberProcessor processor = new NumberProcessor();
+
+ RandomNumberGeneratorEx generator = new RandomNumberGeneratorEx(processor);
+
+ Thread squareThread = new Thread(processor::square);
+
+ Thread cubeThread = new Thread(processor::cube);
+
+ generator.start();
+
+ squareThread.start();
+
+ cubeThread.start();
+
+ }
+
+}
+=======================================
+class NumberPrinter extends Thread {
+
+ private final int start;
+
+ private final int end;
+
+ public NumberPrinter(int start, int end) {
+
+ this.start = start;
+
+ this.end = end;
+
+ }
+
+ @Overridepublic void run() {
+
+ for (int i = start; i <= end; i++) {
+
+ System.out.println(i);
+
+ try {
+
+ Thread.sleep(500); // Pause for visibility
+
+ } catch (InterruptedException e) {
+
+ Thread.currentThread().interrupt();
+
+ }
+
+ }
+
+ }
+
+}
+
+public class AsyncNumberPrinting {
+
+ public static void main(String[] args) {
+
+ Thread t1 = new NumberPrinter(1, 10);
+
+ Thread t2 = new NumberPrinter(90, 100);
+
+ t1.start();
+
+ t2.start();
+
+ }
+
+}
